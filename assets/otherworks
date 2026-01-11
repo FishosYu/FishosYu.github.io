@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Other Works · Ximing Yu</title>
+
+<style>
+:root {
+  --pink-main: #c5938a;
+  --pink-accent: #d49d9d;
+  --pink-bg: #fff3f0;
+  --card-bg: #ffffff;
+  --text-dark: #3b2f2f;
+  --shadow-soft: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--pink-bg);
+  color: var(--text-dark);
+  line-height: 1.7;
+}
+
+/* ===== Header ===== */
+header {
+  background: linear-gradient(135deg, var(--pink-main), var(--pink-accent));
+  color: white;
+  text-align: center;
+  padding: 70px 20px;
+}
+
+header h1 {
+  font-size: 2.6rem;
+  letter-spacing: 1px;
+}
+
+/* ===== Layout ===== */
+.container {
+  max-width: 1200px;
+  margin: -40px auto 60px;
+  padding: 0 20px;
+}
+
+.main-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+/* ===== Card ===== */
+.card {
+  background: var(--card-bg);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  padding: 30px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+.full {
+  flex: 0 0 100%;
+}
+
+.half {
+  flex: 0 0 calc(50% - 15px);
+}
+
+/* ===== About ===== */
+.person {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.person img {
+  max-width: 220px;
+  border-radius: 16px;
+}
+
+.person h3 {
+  margin-bottom: 10px;
+}
+
+.person p {
+  margin-bottom: 6px;
+}
+
+/* ===== Item ===== */
+.item {
+  background: #faf7f6;
+  border-radius: 14px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* ===== Images ===== */
+img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+/* ===== Iframe ===== */
+iframe {
+  width: 100%;
+  max-width: 100%;
+  height: 450px;
+  border-radius: 14px;
+  margin-top: 15px;
+}
+
+/* ===== Button ===== */
+.btn {
+  display: inline-block;
+  background: var(--pink-accent);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 15px;
+  margin-top: 10px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background: #6e5050;
+  transform: scale(1.05);
+}
+
+/* ===== Scenic ===== */
+.scenic {
+  flex: 0 0 calc(50% - 15px);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6e5050;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  .half,
+  .scenic {
+    flex: 0 0 100%;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Other Works · 其他作品</h1>
+</header>
+
+<div class="container">
+<section class="main-content">
+
+  <!-- About -->
+  <div class="card full">
+    <h2>关于我</h2>
+    <div class="person">
+      <div>
+        <h3>俞希明 Ximing Yu</h3>
+        <p>📍 广东广州</p>
+        <p>🎮 ACGN / 设计 / 编程 / 科幻写作</p>
+        <p>🎯 目标：游戏设计方向研究生</p>
+      </div>
+      <img src="https://imglf4.lf127.net/img/ccadad15e2ef2af8/WlVnR0lTMFJCNXhVREdubmtKbFFOdGhrNVVNMlArNE13a2Iwd3Vqakt0cz0.png?imageView&thumbnail=1680x0" alt="Ximing Yu">
+    </div>
+  </div>
+
+  <!-- Mini Game -->
+  <div class="card half">
+    <h2>Mini Game</h2>
+    <p>Godot 制作的小游戏，包含原创绘制素材。</p>
+    <iframe src="https://easylink.cc/whognq" allowfullscreen></iframe>
+  </div>
+
+  <!-- Interactive Art -->
+  <div class="card half">
+    <h2>互动艺术</h2>
+    <p>TouchDesigner · 灵感来自《明日方舟 · 水月》</p>
+    <iframe src="https://easylink.cc/kvkgha" allowfullscreen></iframe>
+  </div>
+
+  <!-- Posters -->
+  <div class="card half">
+    <h2>海报设计</h2>
+    <p>为不同活动与组织设计的视觉作品。</p>
+    <img src="https://imglf4.lf127.net/img/ec82d7a5c57b7966/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3SnVuTFBjQlB0V0FaMkRVSFlvR2dBUT0.png?imageView&thumbnail=1680x0">
+  </div>
+
+  <!-- Writing -->
+  <div class="card half">
+    <h2>科幻写作</h2>
+    <p>刊登于《科学24小时》杂志。</p>
+    <a class="btn" href="https://m.fx361.cc/news/2024/0715/25093551.html" target="_blank">阅读作品</a>
+  </div>
+
+</section>
+</div>
+
+<footer>
+  <p>© Ximing Yu · Thanks for reading</p>
+</footer>
+
+</body>
+</html>
