@@ -1,167 +1,160 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Other Works · Ximing Yu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Designs of Ximing Yu</title>
 
 <style>
-:root {
-  --pink-main: #c5938a;
-  --pink-accent: #d49d9d;
-  --pink-bg: #fff3f0;
-  --card-bg: #ffffff;
-  --text-dark: #3b2f2f;
-  --shadow-soft: 0 10px 30px rgba(0,0,0,0.08);
-}
-
+/* ===== 基础重置 ===== */
 * {
+  box-sizing: border-box;
+}
+body, h1, h2, h3, h4, p, figure {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: var(--pink-bg);
-  color: var(--text-dark);
+  background: #fff3f0;
+  color: #333;
   line-height: 1.7;
 }
 
-/* ===== Header ===== */
-header {
-  background: linear-gradient(135deg, var(--pink-main), var(--pink-accent));
-  color: white;
-  text-align: center;
-  padding: 70px 20px;
-}
-
-header h1 {
-  font-size: 2.6rem;
-  letter-spacing: 1px;
-}
-
-/* ===== Layout ===== */
+/* ===== 布局 ===== */
 .container {
   max-width: 1200px;
-  margin: -40px auto 60px;
-  padding: 0 20px;
+  margin: auto;
+  padding: 24px;
+}
+
+.main-header {
+  text-align: center;
+  padding: 48px 20px;
+  background: linear-gradient(135deg, #c5938a, #e6b8b0);
+  color: white;
+}
+
+.main-header h1 {
+  font-size: 2.4rem;
+  letter-spacing: 1px;
 }
 
 .main-content {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 24px;
+  margin-top: 32px;
 }
 
-/* ===== Card ===== */
-.card {
-  background: var(--card-bg);
-  border-radius: 18px;
-  box-shadow: var(--shadow-soft);
-  padding: 30px;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+/* ===== 卡片块 ===== */
+.content-block {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  flex: 1;
+  min-width: 300px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  transition: transform .3s ease, box-shadow .3s ease;
 }
 
-.card:hover {
+.content-block:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
 }
 
 .full {
-  flex: 0 0 100%;
+  flex-basis: 100%;
 }
 
 .half {
-  flex: 0 0 calc(50% - 15px);
+  flex-basis: calc(50% - 12px);
 }
 
-/* ===== About ===== */
+/* ===== 子模块 ===== */
+.item {
+  background: #faf6f5;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.item img,
+.scenic-img img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  transition: transform .3s ease;
+}
+
+.item img:hover,
+.scenic-img img:hover {
+  transform: scale(1.03);
+}
+
+/* ===== 关于我 ===== */
 .person {
   display: flex;
-  gap: 30px;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
-.person img {
-  max-width: 220px;
-  border-radius: 16px;
-}
-
-.person h3 {
-  margin-bottom: 10px;
-}
-
-.person p {
-  margin-bottom: 6px;
-}
-
-/* ===== Item ===== */
-.item {
-  background: #faf7f6;
-  border-radius: 14px;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-/* ===== Images ===== */
-img {
-  max-width: 100%;
+.photo-slot img {
+  max-width: 240px;
   border-radius: 12px;
-  margin-top: 10px;
 }
 
-/* ===== Iframe ===== */
+/* ===== 图片块 ===== */
+.scenic-img {
+  flex-basis: calc(50% - 12px);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,.08);
+}
+
+/* ===== 按钮 ===== */
+.button {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 12px;
+  margin-top: 8px;
+  background: #d49d9d;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background .3s ease, transform .2s ease;
+}
+
+.button:hover {
+  background: #b97f7f;
+  transform: translateY(-2px);
+}
+
+/* ===== iframe ===== */
 iframe {
   width: 100%;
-  max-width: 100%;
-  height: 450px;
-  border-radius: 14px;
-  margin-top: 15px;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  margin-top: 12px;
 }
 
-/* ===== Button ===== */
-.btn {
-  display: inline-block;
-  background: var(--pink-accent);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: 15px;
-  margin-top: 10px;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.btn:hover {
-  background: #6e5050;
-  transform: scale(1.05);
-}
-
-/* ===== Scenic ===== */
-.scenic {
-  flex: 0 0 calc(50% - 15px);
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: var(--shadow-soft);
-}
-
-/* ===== Footer ===== */
-footer {
+/* ===== 页脚 ===== */
+.footer {
   text-align: center;
   padding: 40px 20px;
-  color: #6e5050;
+  margin-top: 60px;
+  background: #ceccdf;
+  color: #333;
 }
 
-/* ===== Mobile ===== */
+/* ===== 响应式 ===== */
 @media (max-width: 768px) {
   .half,
-  .scenic {
-    flex: 0 0 100%;
-  }
-
-  header h1 {
-    font-size: 2rem;
+  .scenic-img {
+    flex-basis: 100%;
   }
 }
 </style>
@@ -169,61 +162,92 @@ footer {
 
 <body>
 
-<header>
-  <h1>Other Works · 其他作品</h1>
+<header class="main-header">
+  <h1>My Designs</h1>
 </header>
 
 <div class="container">
 <section class="main-content">
 
-  <!-- About -->
-  <div class="card full">
-    <h2>关于我</h2>
-    <div class="person">
-      <div>
-        <h3>俞希明 Ximing Yu</h3>
-        <p>📍 广东广州</p>
-        <p>🎮 ACGN / 设计 / 编程 / 科幻写作</p>
-        <p>🎯 目标：游戏设计方向研究生</p>
-      </div>
-      <img src="https://imglf4.lf127.net/img/ccadad15e2ef2af8/WlVnR0lTMFJCNXhVREdubmtKbFFOdGhrNVVNMlArNE13a2Iwd3Vqakt0cz0.png?imageView&thumbnail=1680x0" alt="Ximing Yu">
+<!-- 关于我 -->
+<div class="content-block full">
+  <h2>关于我</h2>
+  <div class="person">
+    <div class="info">
+      <h3>俞希明 · Ximing Yu</h3>
+      <p>广东广州</p>
+      <p>爱好：ACGN、艺术设计、计算机编程、桌游 / 电子游戏、科幻写作</p>
+      <p>未来计划：计算机相关专业，申请游戏设计方向研究生</p>
+      <p>小成就：科幻写作获奖；独立设计海报、Logo</p>
+    </div>
+    <div class="photo-slot">
+      <img src="https://imglf4.lf127.net/img/ccadad15e2ef2af8/WlVnR0lTMFJCNXhVREdubmtKbFFOdGhrNVVNMlArNE13a2Iwd3Vqakt0cz0.png" />
     </div>
   </div>
 
-  <!-- Mini Game -->
-  <div class="card half">
-    <h2>Mini Game</h2>
-    <p>Godot 制作的小游戏，包含原创绘制素材。</p>
-    <iframe src="https://easylink.cc/whognq" allowfullscreen></iframe>
+  <div class="item">
+    <h3>主要技能</h3>
+    <p>编程：Python / Java / C#（学习中）</p>
+    <p>设计：Adobe 系列 / Procreate / TouchDesigner / Godot</p>
   </div>
-
-  <!-- Interactive Art -->
-  <div class="card half">
-    <h2>互动艺术</h2>
-    <p>TouchDesigner · 灵感来自《明日方舟 · 水月》</p>
-    <iframe src="https://easylink.cc/kvkgha" allowfullscreen></iframe>
-  </div>
-
-  <!-- Posters -->
-  <div class="card half">
-    <h2>海报设计</h2>
-    <p>为不同活动与组织设计的视觉作品。</p>
-    <img src="https://imglf4.lf127.net/img/ec82d7a5c57b7966/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3SnVuTFBjQlB0V0FaMkRVSFlvR2dBUT0.png?imageView&thumbnail=1680x0">
-  </div>
-
-  <!-- Writing -->
-  <div class="card half">
-    <h2>科幻写作</h2>
-    <p>刊登于《科学24小时》杂志。</p>
-    <a class="btn" href="https://m.fx361.cc/news/2024/0715/25093551.html" target="_blank">阅读作品</a>
-  </div>
-
-</section>
 </div>
 
-<footer>
-  <p>© Ximing Yu · Thanks for reading</p>
+<!-- 风景图 -->
+<figure class="scenic-img">
+  <img src="https://imglf5.lf127.net/img/70b2861e9925afec/WlVnR0lTMFJCNXdCTXg1aG1DZ1d1am9xSFByMzZJbk1xWjh0SmNJNk95MD0.png">
+</figure>
+
+<!-- Mini Game -->
+<div class="content-block half">
+  <h2>Mini Game</h2>
+  <div class="item">
+    <p>使用 Godot 制作的小游戏，图案为本人绘制</p>
+    <iframe src="https://easylink.cc/whognq" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- 互动艺术 -->
+<div class="content-block half">
+  <h2>互动艺术</h2>
+  <p>使用 TouchDesigner 制作，灵感来源《明日方舟·水月》</p>
+  <div class="item">
+    <img src="https://imglf6.lf127.net/img/0f8d6ad3fb005ebf/WlVnR0lTMFJCNXpVUHcwK3c4UGU0YXV2aktVd0hNbkNuYUxCM0Q4eHFaZz0.png">
+    <iframe src="https://easylink.cc/kvkgha" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- 海报 -->
+<div class="content-block half">
+  <h2>海报设计</h2>
+
+  <div class="item">
+    <h4>Major Fair</h4>
+    <img src="https://imglf4.lf127.net/img/ec82d7a5c57b7966/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3SnVuTFBjQlB0V0FaMkRVSFlvR2dBUT0.png">
+    <img src="https://imglf6.lf127.net/img/1a4a19e9d47766f0/WlVnR0lTMFJCNXkyL1h4WjExM2piVkFaZ1VteUo4UEFlZ3JaT3dIM1MyST0.png">
+  </div>
+
+  <div class="item">
+    <h4>AI 社活动海报</h4>
+    <img src="https://imglf6.lf127.net/img/5af335ef4f03d8cc/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3RTA0NE5LSlVIYk5FbGFMOUJlalZCcz0.png">
+    <img src="https://imglf6.lf127.net/img/a9a934b7ef15ed94/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3Q3poaTNkZmhFck5ZZnhocFVFM0ZEaz0.png">
+  </div>
+</div>
+
+<!-- 科幻写作 -->
+<div class="content-block half">
+  <h2>科幻写作</h2>
+  <p>发表于《科学24小时》</p>
+  <a class="button" href="https://m.fx361.cc/news/2024/0715/25093551.html" target="_blank">
+    点击阅读
+  </a>
+</div>
+
+</section>
+
+<footer class="footer">
+  <p>感谢你的阅读 ✨</p>
 </footer>
+</div>
 
 </body>
 </html>
