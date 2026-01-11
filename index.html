@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>俞希明 · Personal Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #ffffff;
+    --gray: #f4f4f4;
+    --text: #1a1a1a;
+    --subtext: #666;
+    --accent: #111;
+}
+
+/* ---------- Reset ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Profile ---------- */
+.profile {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    animation: fadeUp 1s ease forwards;
+}
+
+.profile-img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+.profile h1 {
+    font-size: 2.6rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: var(--subtext);
+    margin-top: 0.4rem;
+}
+
+.intro {
+    max-width: 520px;
+    margin: 1.6rem auto 0;
+    color: var(--subtext);
+}
+
+/* ---------- Section ---------- */
+.section {
+    padding: 5rem 1.5rem;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.section.gray {
+    background: var(--gray);
+    max-width: none;
+}
+
+.section h2 {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.8s ease forwards;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.btn.outline {
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+
+.btn.small {
+    padding: 0.5rem 1.4rem;
+    font-size: 0.9rem;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* ---------- Cards ---------- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2.5rem;
+}
+
+.card {
+    background: #fff;
+    padding: 2.4rem 2rem;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    transition: all 0.35s ease;
+    animation: fadeUp 0.8s ease forwards;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+}
+
+.card-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1.2rem;
+}
+
+.card h3 {
+    margin-bottom: 0.6rem;
+}
+
+.card p {
+    font-size: 0.95rem;
+    color: var(--subtext);
+    margin-bottom: 1.4rem;
+}
+
+/* ---------- Other ---------- */
+.center {
+    text-align: center;
+}
+
+.center-text {
+    text-align: center;
+    color: var(--subtext);
+    margin-bottom: 2rem;
+}
+
+/* ---------- Footer ---------- */
+footer {
+    padding: 2.5rem;
+    text-align: center;
+    color: var(--subtext);
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= Profile ================= -->
+<section class="profile">
+    <div>
+        <img src="assets/profile.jpg" class="profile-img" alt="profile">
+
+        <h1>俞希明</h1>
+        <p class="subtitle">Developer · Designer · Creator</p>
+
+        <p class="intro">
+            专注于游戏开发、图形学与交互体验设计，
+            致力于将技术与视觉表达融合成有温度的作品。
+        </p>
+    </div>
+</section>
+
+<!-- ================= Resume ================= -->
+<section class="section">
+    <h2>Resume</h2>
+
+    <div class="button-group">
+        <a href="resume-cn.html" class="btn">中文简历</a>
+        <a href="resume-en.html" class="btn outline">English Resume</a>
+    </div>
+</section>
+
+<!-- ================= Products ================= -->
+<section class="section gray">
+    <h2>Products</h2>
+
+    <div class="card-grid">
+        <div class="card">
+            <img src="assets/product1.png" class="card-icon">
+            <h3>Product One</h3>
+            <p>面向用户的核心产品，提供完整的功能与体验。</p>
+            <a href="#" class="btn small">查看详情</a>
+        </div>
+
+        <div class="card">
+            <img src="assets/product2.png" class="card-icon">
+            <h3>Product Two</h3>
+            <p>探索性项目，结合技术实验与创意实现。</p>
+            <a href="#" class="btn small">前往网站</a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= Other Works ================= -->
+<section class="section">
+    <h2>Other Works</h2>
+
+    <p class="center-text">
+        包含更多实验项目、视觉作品与研究性内容。
+    </p>
+
+    <div class="center">
+        <a href="works/index.html" class="btn">进入作品子站</a>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 俞希明</p>
+</footer>
+
+</body>
+</html>
