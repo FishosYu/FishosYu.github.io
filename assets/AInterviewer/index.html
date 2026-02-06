@@ -28,6 +28,34 @@ body {
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
+    transition: all 0.3s ease; /* 文字平滑过渡 */
+    position: relative;
+}
+
+/* ---------- Language Switcher ---------- */
+.lang-switch {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.5); /* 半透明背景 */
+    backdrop-filter: blur(8px); /* 磨砂玻璃效果 */
+    border: 1px solid var(--purple);
+    color: var(--purple);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(108, 76, 255, 0.1);
+}
+
+.lang-switch:hover {
+    background: var(--purple);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(108, 76, 255, 0.25);
 }
 
 /* ---------- Animations ---------- */
@@ -157,69 +185,127 @@ footer {
     text-align: center;
     color: var(--subtext);
 }
+
+/* Mobile Tweak for Button */
+@media (max-width: 600px) {
+    .lang-switch {
+        top: 15px;
+        right: 15px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
 </style>
 </head>
 
 <body>
 
-<!-- ================= Hero ================= -->
+    <button id="lang-btn" class="lang-switch">EN</button>
+
 <section class="hero">
     <div class="hero-content">
         <img src="AInterviewer.png" alt="AInterviewer">
         <h1>AInterviewer</h1>
-        <p>
+        <p data-i18n="hero-desc">
             一个基于 AI 的智能面试模拟工具，
             帮助你在真实面试前做好充分准备。
         </p>
     </div>
 </section>
 
-<!-- ================= Intro ================= -->
 <section class="section">
-    <h2>产品介绍 Product Introduction</h2>
+    <h2 data-i18n="intro-title">产品介绍 Product Introduction</h2>
 
-    <p style="max-width:720px;margin:0 auto;text-align:center;color:var(--subtext);">
+    <p data-i18n="intro-desc" style="max-width:720px;margin:0 auto;text-align:center;color:var(--subtext);">
         AInterviewer 通过分析你的简历与岗位需求，
         动态生成个性化面试问题，并提供实时反馈，
         让你在安全环境中不断优化面试表现。
     </p>
 </section>
 
-<!-- ================= Docs ================= -->
 <section class="section gray">
-    <h2>Documentation</h2>
+    <h2 data-i18n="docs-title">Documentation</h2>
 
     <div class="button-group">
-        <a href="AInterviewer_User_Manual.pdf" class="btn">使用文档</a>
+        <a href="AInterviewer_User_Manual.pdf" class="btn" data-i18n="btn-manual">使用文档</a>
     </div>
 </section>
 
-<!-- ================= Download ================= -->
 <section class="section">
-    <h2>获取最新版本 Download</h2>
+    <h2 data-i18n="download-title">获取最新版本 Download</h2>
 
     <div class="card-grid">
         <div class="card">
-            <h3>Android APK</h3>
-            <p>
+            <h3 data-i18n="card-title">Android APK</h3>
+            <p data-i18n="card-desc">
                 适用于 Android 设备的完整版本，
                 iOS版本敬请期待。
             </p>
             <br>
-            <a href="https://github.com/FishosYu/FishosYu.github.io/raw/refs/heads/main/assets/AInterviewer/ainterviewer.apk.1.1" class="btn">下载 APK</a>
+            <a href="https://github.com/FishosYu/FishosYu.github.io/raw/refs/heads/main/assets/AInterviewer/ainterviewer.apk.1.1" class="btn" data-i18n="btn-download">下载 APK</a>
         </div>
     </div>
 </section>
 
 <footer>
     <p>
-        <a href="/" class="btn">
+        <a href="/" class="btn" data-i18n="btn-back">
             ← 返回主页
         </a>
     </p>
-    <p>© 2026 AIinterviewer</p>
+    <p data-i18n="copyright">© 2026 AIinterviewer</p>
 </footer>
+
+<script>
+    const translations = {
+        'zh': {
+            'hero-desc': '一个基于 AI 的智能面试模拟工具，帮助你在真实面试前做好充分准备。',
+            'intro-title': '产品介绍 Product Introduction',
+            'intro-desc': 'AInterviewer 通过分析你的简历与岗位需求，动态生成个性化面试问题，并提供实时反馈，让你在安全环境中不断优化面试表现。',
+            'docs-title': 'Documentation',
+            'btn-manual': '使用文档',
+            'download-title': '获取最新版本 Download',
+            'card-title': 'Android APK',
+            'card-desc': '适用于 Android 设备的完整版本，iOS版本敬请期待。',
+            'btn-download': '下载 APK',
+            'btn-back': '← 返回主页',
+            'copyright': '© 2026 AIinterviewer'
+        },
+        'en': {
+            'hero-desc': 'An AI-based intelligent interview simulation tool helping you prepare fully for real interviews.',
+            'intro-title': 'Product Introduction',
+            'intro-desc': 'AInterviewer analyzes your resume and job requirements to generate personalized interview questions and provide real-time feedback, allowing you to continuously optimize your performance in a safe environment.',
+            'docs-title': 'Documentation',
+            'btn-manual': 'User Manual',
+            'download-title': 'Download',
+            'card-title': 'Android APK',
+            'card-desc': 'Full version for Android devices. iOS version coming soon.',
+            'btn-download': 'Download APK',
+            'btn-back': '← Back to Home',
+            'copyright': '© 2026 AIinterviewer'
+        }
+    };
+
+    const langBtn = document.getElementById('lang-btn');
+    let currentLang = 'zh';
+
+    function updateContent(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                element.innerText = translations[lang][key];
+            }
+        });
+        
+        langBtn.innerText = lang === 'zh' ? 'EN' : '中';
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    }
+
+    langBtn.addEventListener('click', () => {
+        currentLang = currentLang === 'zh' ? 'en' : 'zh';
+        updateContent(currentLang);
+    });
+</script>
 
 </body>
 </html>
-
