@@ -34,7 +34,7 @@ body {
     position: relative; /* 为了定位语言按钮 */
 }
 
-/* ---------- Language Switcher (新增) ---------- */
+/* ---------- Language Switcher ---------- */
 .lang-switch {
     position: absolute;
     top: 1.5rem;
@@ -181,6 +181,8 @@ body {
     width: 64px;
     height: 64px;
     margin-bottom: 1.2rem;
+    /* 确保图标按比例缩放 */
+    object-fit: contain; 
 }
 
 .card h3 {
@@ -262,6 +264,13 @@ footer {
                 <p data-key="desc_dddance">个人独立设计制作的游戏作品，使用Unity制作。</p>
                 <a href="https://www.dddance.top/" class="btn small" data-key="btn_visit">前往网站</a>
             </div>
+
+            <div class="card">
+                <img src="assets/images/M3icon.png" class="card-icon">
+                <h3 data-key="title_masks">三重面具</h3>
+                <p data-key="desc_masks">Global Game Jam 2026 参赛作品。</p>
+                <a href="https://globalgamejam.org/games/2026/three-masks-1" class="btn small" data-key="btn_visit_ggj">前往GGJ网站</a>
+            </div>
         </div>
     </section>
 
@@ -293,11 +302,21 @@ footer {
                 'btn_resume_en': 'English Resume',
                 'update_time': '最近更新时间：2025.9',
                 'section_products': '作品',
+                
+                // AInterviewer
                 'desc_aint': '提供AI模拟面试的安卓应用。支持中英双语。',
                 'btn_details': '查看详情',
+                
+                // 三日舞会
                 'title_dddance': '三日舞会',
                 'desc_dddance': '个人独立设计制作的游戏作品，使用Unity制作。',
                 'btn_visit': '前往网站',
+
+                // 三重面具 (新增翻译)
+                'title_masks': '三重面具',
+                'desc_masks': 'Global Game Jam 2026 参赛作品。',
+                'btn_visit_ggj': '前往GGJ网站',
+                
                 'section_other': '其他',
                 'desc_other': '包含更多实验项目、视觉作品与研究性内容。',
                 'btn_subsite': '进入作品子站',
@@ -312,11 +331,21 @@ footer {
                 'btn_resume_en': 'English Resume',
                 'update_time': 'Last updated: Sept 2025',
                 'section_products': 'Products',
+                
+                // AInterviewer
                 'desc_aint': 'An Android app providing AI mock interviews. Supports bilingual (CN/EN).',
                 'btn_details': 'View Details',
+                
+                // Three-Day Ball
                 'title_dddance': 'Three-Day Ball',
                 'desc_dddance': 'Indie game designed and developed by myself using Unity.',
                 'btn_visit': 'Visit Site',
+
+                // Three Masks (New Translations)
+                'title_masks': 'Three Masks',
+                'desc_masks': 'Global Game Jam 2026 Entry.',
+                'btn_visit_ggj': 'Visit GGJ Page',
+
                 'section_other': 'Other Works',
                 'desc_other': 'Includes experimental projects, visual works, and research content.',
                 'btn_subsite': 'Enter Sub-site',
@@ -343,21 +372,10 @@ footer {
                 }
             });
 
-            // 更新 HTML 标签的 lang 属性（利于浏览器识别）
+            // 更新 HTML 标签的 lang 属性
             document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
         }
     </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
