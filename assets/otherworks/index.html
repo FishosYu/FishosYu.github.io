@@ -22,6 +22,43 @@ body {
   line-height: 1.7;
 }
 
+/* ===== 语言切换相关 ===== */
+/* 默认隐藏英文，显示中文 */
+.en { display: none; }
+.zh { display: block; }
+/* 如果是行内元素，使用 inline */
+span.zh, span.en, a.zh, a.en { display: inline; }
+span.en, a.en { display: none; }
+
+/* 当 body 加上 'lang-en' 类时，反转显示 */
+body.lang-en .zh { display: none !important; }
+body.lang-en .en { display: block !important; }
+body.lang-en span.en, body.lang-en a.en { display: inline !important; }
+
+/* 语言切换按钮样式 */
+#lang-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #d49d9d;
+  color: #d49d9d;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: inherit;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+#lang-toggle:hover {
+  background: #d49d9d;
+  color: white;
+  transform: translateY(-2px);
+}
+
 /* ===== 布局 ===== */
 .container {
   max-width: 1200px;
@@ -34,6 +71,7 @@ body {
   padding: 48px 20px;
   background: linear-gradient(135deg, #c5938a, #e6b8b0);
   color: white;
+  position: relative; /* 为按钮定位做参考（如果在header内） */
 }
 
 .main-header h1 {
@@ -100,9 +138,19 @@ body {
   gap: 20px;
 }
 
+.person .info {
+  flex: 1;
+  min-width: 250px;
+}
+
+.person .photo-slot {
+  flex: 0 0 auto;
+}
+
 .photo-slot img {
   max-width: 240px;
   border-radius: 12px;
+  display: block;
 }
 
 /* ===== 图片块 ===== */
@@ -111,6 +159,7 @@ body {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 12px 30px rgba(0,0,0,.08);
+  margin: 0;
 }
 
 /* ===== 按钮 ===== */
@@ -139,6 +188,7 @@ iframe {
   aspect-ratio: 16 / 9;
   border-radius: 12px;
   margin-top: 12px;
+  border: none;
 }
 
 /* ===== 页脚 ===== */
@@ -156,107 +206,193 @@ iframe {
   .scenic-img {
     flex-basis: 100%;
   }
+  
+  .person {
+    flex-direction: column-reverse;
+  }
+  
+  .person .photo-slot img {
+    max-width: 100%;
+    margin: 0 auto 15px auto;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<button id="lang-toggle" onclick="toggleLanguage()">English</button>
+
 <header class="main-header">
-  <h1>My Designs</h1>
+  <h1>
+    <span class="zh">我的设计</span>
+    <span class="en">My Designs</span>
+  </h1>
 </header>
 
 <div class="container">
 <section class="main-content">
 
 <div class="content-block full">
-  <h2>重要提示 Notice</h2>
+  <h2>
+    <span class="zh">重要提示 Notice</span>
+    <span class="en">Notice</span>
+  </h2>
   <div class="info">
-    <p>此界面仍在建设中，敬请期待后续更新。</p>
-    <p>This interface is still under construction. Please stay tuned for future updates.</p>
+    <p class="zh">此界面仍在建设中，敬请期待后续更新。</p>
+    <p class="en">This interface is still under construction. Please stay tuned for future updates.</p>
   </div>
 </div>
   
-<!-- 关于我 -->
 <div class="content-block full">
-  <h2>关于我</h2>
+  <h2>
+    <span class="zh">关于我</span>
+    <span class="en">About Me</span>
+  </h2>
   <div class="person">
     <div class="info">
-      <h3>俞希明 · Ximing Yu</h3>
-      <p>广东广州</p>
-      <p>爱好：ACGN、艺术设计、计算机编程、桌游 / 电子游戏、科幻写作</p>
-      <p>未来计划：计算机相关专业，申请游戏设计方向研究生</p>
-      <p>小成就：科幻写作获奖；独立设计海报、Logo</p>
+      <h3>
+        <span class="zh">俞希明 · Ximing Yu</span>
+        <span class="en">Ximing Yu</span>
+      </h3>
+      <p>
+        <span class="zh">广东广州</span>
+        <span class="en">Guangzhou, Guangdong</span>
+      </p>
+      <p>
+        <span class="zh">爱好：ACGN、艺术设计、计算机编程、桌游 / 电子游戏、科幻写作</span>
+        <span class="en">Hobbies: ACGN, Art & Design, Programming, Board Games / Video Games, Sci-Fi Writing</span>
+      </p>
+      <p>
+        <span class="zh">未来计划：计算机相关专业，申请游戏设计方向研究生</span>
+        <span class="en">Future Plans: Computer Science major, applying for Game Design graduate programs</span>
+      </p>
+      <p>
+        <span class="zh">小成就：科幻写作获奖；独立设计海报、Logo</span>
+        <span class="en">Achievements: Sci-Fi writing awards; Independent design of posters and logos</span>
+      </p>
     </div>
     <div class="photo-slot">
-      <img src="https://imglf4.lf127.net/img/ccadad15e2ef2af8/WlVnR0lTMFJCNXhVREdubmtKbFFOdGhrNVVNMlArNE13a2Iwd3Vqakt0cz0.png" />
+      <img src="https://imglf4.lf127.net/img/ccadad15e2ef2af8/WlVnR0lTMFJCNXhVREdubmtKbFFOdGhrNVVNMlArNE13a2Iwd3Vqakt0cz0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="Profile Photo" />
     </div>
   </div>
 
   <div class="item">
-    <h3>主要技能</h3>
-    <p>编程：Python / Java / C#（学习中）</p>
-    <p>设计：Adobe 系列 / Procreate / TouchDesigner / Godot</p>
+    <h3>
+        <span class="zh">主要技能</span>
+        <span class="en">Key Skills</span>
+    </h3>
+    <p>
+        <span class="zh">编程：Python / Java / C#（学习中）</span>
+        <span class="en">Programming: Python / Java / C# (Learning)</span>
+    </p>
+    <p>
+        <span class="zh">设计：Adobe 系列 / Procreate / TouchDesigner / Godot</span>
+        <span class="en">Design: Adobe Suite / Procreate / TouchDesigner / Godot</span>
+    </p>
   </div>
 </div>
 
-<!-- 风景图 -->
 <figure class="scenic-img">
-  <img src="https://imglf5.lf127.net/img/70b2861e9925afec/WlVnR0lTMFJCNXdCTXg1aG1DZ1d1am9xSFByMzZJbk1xWjh0SmNJNk95MD0.png">
+  <img src="https://imglf5.lf127.net/img/70b2861e9925afec/WlVnR0lTMFJCNXdCTXg1aG1DZ1d1am9xSFByMzZJbk1xWjh0SmNJNk95MD0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="Scenic View">
 </figure>
 
-<!-- Mini Game -->
 <div class="content-block half">
   <h2>Mini Game</h2>
   <div class="item">
-    <p>使用 Godot 制作的小游戏，图案为本人绘制</p>
+    <p class="zh">使用 Godot 制作的小游戏，图案为本人绘制</p>
+    <p class="en">Mini-game made with Godot, using assets drawn by myself</p>
     <iframe src="https://easylink.cc/whognq" allowfullscreen></iframe>
   </div>
 </div>
 
-<!-- 互动艺术 -->
 <div class="content-block half">
-  <h2>互动艺术</h2>
-  <p>使用 TouchDesigner 制作，灵感来源《明日方舟·水月》</p>
+  <h2>
+      <span class="zh">互动艺术</span>
+      <span class="en">Interactive Art</span>
+  </h2>
+  <p class="zh">使用 TouchDesigner 制作，灵感来源《明日方舟·水月》</p>
+  <p class="en">Made with TouchDesigner, inspired by 'Mizuki' from Arknights</p>
   <div class="item">
-    <img src="https://imglf6.lf127.net/img/0f8d6ad3fb005ebf/WlVnR0lTMFJCNXpVUHcwK3c4UGU0YXV2aktVd0hNbkNuYUxCM0Q4eHFaZz0.png">
+    <img src="https://imglf6.lf127.net/img/0f8d6ad3fb005ebf/WlVnR0lTMFJCNXpVUHcwK3c4UGU0YXV2aktVd0hNbkNuYUxCM0Q4eHFaZz0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="TouchDesigner Work">
     <iframe src="https://easylink.cc/kvkgha" allowfullscreen></iframe>
   </div>
 </div>
 
-<!-- 海报 -->
 <div class="content-block half">
-  <h2>海报设计</h2>
+  <h2>
+      <span class="zh">海报设计</span>
+      <span class="en">Poster Design</span>
+  </h2>
 
   <div class="item">
     <h4>Major Fair</h4>
-    <img src="https://imglf4.lf127.net/img/ec82d7a5c57b7966/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3SnVuTFBjQlB0V0FaMkRVSFlvR2dBUT0.png">
-    <img src="https://imglf6.lf127.net/img/1a4a19e9d47766f0/WlVnR0lTMFJCNXkyL1h4WjExM2piVkFaZ1VteUo4UEFlZ3JaT3dIM1MyST0.png">
+    <img src="https://imglf4.lf127.net/img/ec82d7a5c57b7966/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3SnVuTFBjQlB0V0FaMkRVSFlvR2dBUT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="Major Fair Poster 1">
+    <img src="https://imglf6.lf127.net/img/1a4a19e9d47766f0/WlVnR0lTMFJCNXkyL1h4WjExM2piVkFaZ1VteUo4UEFlZ3JaT3dIM1MyST0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="Major Fair Poster 2" style="margin-top:10px;">
   </div>
 
   <div class="item">
-    <h4>AI 社活动海报</h4>
-    <img src="https://imglf6.lf127.net/img/5af335ef4f03d8cc/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3RTA0NE5LSlVIYk5FbGFMOUJlalZCcz0.png">
-    <img src="https://imglf6.lf127.net/img/a9a934b7ef15ed94/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3Q3poaTNkZmhFck5ZZnhocFVFM0ZEaz0.png">
+    <h4>
+        <span class="zh">AI 社活动海报</span>
+        <span class="en">AI Club Event Posters</span>
+    </h4>
+    <img src="https://imglf6.lf127.net/img/5af335ef4f03d8cc/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3RTA0NE5LSlVIYk5FbGFMOUJlalZCcz0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="AI Club Poster 1">
+    <img src="https://imglf6.lf127.net/img/a9a934b7ef15ed94/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3Q3poaTNkZmhFck5ZZnhocFVFM0ZEaz0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="AI Club Poster 2" style="margin-top:10px;">
   </div>
 </div>
 
-<!-- 科幻写作 -->
 <div class="content-block half">
-  <h2>科幻写作</h2>
-  <p>发表于《科学24小时》</p>
-  <a class="button" href="https://m.fx361.cc/news/2024/0715/25093551.html" target="_blank">
-    点击阅读
-  </a>
+  <h2>
+      <span class="zh">科幻写作</span>
+      <span class="en">Sci-Fi Writing</span>
+  </h2>
+  <p class="zh">发表于《科学24小时》</p>
+  <p class="en">Published in "Science 24 Hours"</p>
+  <div class="item">
+    <a class="button" href="https://m.fx361.cc/news/2024/0715/25093551.html" target="_blank">
+      <span class="zh">点击阅读</span>
+      <span class="en">Read More</span>
+    </a>
+  </div>
 </div>
 
 </section>
 
 <footer class="footer">
-  <p>感谢你的阅读 ✨</p>
+  <p class="zh">感谢你的阅读 ✨</p>
+  <p class="en">Thanks for reading ✨</p>
 </footer>
 </div>
 
+<script>
+
+  function toggleLanguage() {
+    const body = document.body;
+    const btn = document.getElementById('lang-toggle');
+    
+
+    body.classList.toggle('lang-en');
+    
+    const isEnglish = body.classList.contains('lang-en');
+    
+    if (isEnglish) {
+      btn.textContent = "中文";
+      localStorage.setItem('preferredLang', 'en'); 
+    } else {
+      btn.textContent = "English";
+      localStorage.setItem('preferredLang', 'zh'); 
+    }
+  }
+
+  // 页面加载时检查之前的选择
+  window.onload = function() {
+    const savedLang = localStorage.getItem('preferredLang');
+    if (savedLang === 'en') {
+      document.body.classList.add('lang-en');
+      document.getElementById('lang-toggle').textContent = "中文";
+    }
+  };
+</script>
+
 </body>
 </html>
-
