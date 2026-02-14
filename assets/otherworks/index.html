@@ -20,6 +20,7 @@ body {
   background: #fff3f0;
   color: #333;
   line-height: 1.7;
+  overflow-x: hidden; /* 防止全宽图片导致横向滚动条 */
 }
 
 /* ===== 语言切换相关 ===== */
@@ -55,6 +56,33 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
   transform: translateY(-2px);
 }
 
+/* ===== 顶部横幅 (全宽) ===== */
+.top-banner {
+  width: 100vw;
+  max-height: 60vh; /* 限制最大高度，避免首屏太长 */
+  overflow: hidden;
+  position: relative;
+}
+
+.top-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 保证图片铺满且不变形 */
+  display: block;
+}
+
+.main-header {
+  text-align: center;
+  padding: 40px 20px 20px;
+  background: transparent; /* 背景透明，融合进页面 */
+}
+
+.main-header h1 {
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  color: #b97f7f;
+}
+
 /* ===== 布局 ===== */
 .container {
   max-width: 1200px;
@@ -62,23 +90,11 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
   padding: 24px;
 }
 
-.main-header {
-  text-align: center;
-  padding: 48px 20px;
-  background: linear-gradient(135deg, #c5938a, #e6b8b0);
-  color: white;
-}
-
-.main-header h1 {
-  font-size: 2.4rem;
-  letter-spacing: 1px;
-}
-
 .main-content {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
-  margin-top: 32px;
+  margin-top: 20px;
 }
 
 /* ===== 卡片块 ===== */
@@ -105,7 +121,7 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
   flex-basis: calc(50% - 12px);
 }
 
-/* ===== 子模块 ===== */
+/* ===== 子模块 & 视频 ===== */
 .item {
   background: #faf6f5;
   border-radius: 12px;
@@ -114,22 +130,16 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
 }
 
 .item h3, .item h4 {
-    margin-bottom: 8px;
-    color: #b97f7f;
+  margin-bottom: 8px;
+  color: #b97f7f;
 }
 
-.item img,
-.scenic-img img {
+.item img, video {
   width: 100%;
   height: auto;
   border-radius: 10px;
-  transition: transform .3s ease;
-  display: block; /* 消除图片底部空隙 */
-}
-
-.item img:hover,
-.scenic-img img:hover {
-  transform: scale(1.03);
+  margin-top: 8px;
+  display: block;
 }
 
 /* ===== 关于我 ===== */
@@ -137,6 +147,7 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  align-items: flex-start;
 }
 
 .person .info {
@@ -145,21 +156,13 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
 }
 
 .person .photo-slot {
-  flex: 0 0 auto;
+  flex: 0 0 240px; /* 固定照片宽度 */
 }
 
 .photo-slot img {
-  max-width: 240px;
+  width: 100%;
   border-radius: 12px;
-}
-
-/* ===== 图片块 ===== */
-.scenic-img {
-  flex-basis: calc(50% - 12px);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0,0,0,.08);
-  margin: 0;
+  margin-top: 0;
 }
 
 /* ===== 按钮 ===== */
@@ -182,38 +185,40 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
   transform: translateY(-2px);
 }
 
-/* ===== iframe ===== */
-iframe {
+/* ===== 结尾图片 ===== */
+.ending-banner {
+  margin-top: 60px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,.08);
+}
+.ending-banner img {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 12px;
-  margin-top: 12px;
-  border: none;
+  display: block;
 }
 
 /* ===== 页脚 ===== */
 .footer {
   text-align: center;
   padding: 40px 20px;
-  margin-top: 60px;
-  background: #ceccdf;
-  color: #333;
+  color: #666;
 }
 
 /* ===== 响应式 ===== */
 @media (max-width: 768px) {
-  .half,
-  .scenic-img {
+  .half {
     flex-basis: 100%;
   }
   
   .person {
-    flex-direction: column-reverse;
+    flex-direction: column-reverse; /* 手机端照片在上或在下 */
   }
   
-  .person .photo-slot img {
-    max-width: 100%;
-    margin: 0 auto 15px auto;
+  .person .photo-slot {
+    flex-basis: auto;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
   }
 }
 </style>
@@ -222,6 +227,10 @@ iframe {
 <body>
 
 <button id="lang-toggle" onclick="toggleLanguage()">English</button>
+
+<div class="top-banner">
+  <img src="Scenic view.png" alt="Scenic View Banner">
+</div>
 
 <header class="main-header">
   <h1>
@@ -233,17 +242,6 @@ iframe {
 <div class="container">
 <section class="main-content">
 
-<div class="content-block full">
-  <h2>
-    <span class="zh">重要提示 Notice</span>
-    <span class="en">Notice</span>
-  </h2>
-  <div class="info">
-    <p class="zh">此界面仍在建设中，敬请期待后续更新。</p>
-    <p class="en">This interface is still under construction. Please stay tuned for future updates.</p>
-  </div>
-</div>
-  
 <div class="content-block full">
   <h2>
     <span class="zh">关于我</span>
@@ -271,38 +269,55 @@ iframe {
         <span class="zh">小成就：科幻写作获奖；独立设计海报、Logo</span>
         <span class="en">Achievements: Sci-Fi writing awards; Independent design of posters and logos</span>
       </p>
+      
+      <div class="item">
+        <h3>
+            <span class="zh">主要技能</span>
+            <span class="en">Key Skills</span>
+        </h3>
+        <p>
+            <span class="zh">编程：Python / Java / C#（学习中）</span>
+            <span class="en">Programming: Python / Java / C# (Learning)</span>
+        </p>
+        <p>
+            <span class="zh">设计：Adobe 系列 / Procreate / TouchDesigner / Godot</span>
+            <span class="en">Design: Adobe Suite / Procreate / TouchDesigner / Godot</span>
+        </p>
+      </div>
     </div>
+    
     <div class="photo-slot">
-      <img src="https://imglf4.lf127.net/img/ccadad15e2ef2af8/WlVnR0lTMFJCNXhVREdubmtKbFFOdGhrNVVNMlArNE13a2Iwd3Vqakt0cz0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="Profile Photo" />
+      <img src="profile.png" alt="Profile Photo" onerror="this.src='https://via.placeholder.com/240x300?text=Please+Upload+Profile.png'">
     </div>
-  </div>
-
-  <div class="item">
-    <h3>
-        <span class="zh">主要技能</span>
-        <span class="en">Key Skills</span>
-    </h3>
-    <p>
-        <span class="zh">编程：Python / Java / C#（学习中）</span>
-        <span class="en">Programming: Python / Java / C# (Learning)</span>
-    </p>
-    <p>
-        <span class="zh">设计：Adobe 系列 / Procreate / TouchDesigner / Godot</span>
-        <span class="en">Design: Adobe Suite / Procreate / TouchDesigner / Godot</span>
-    </p>
   </div>
 </div>
 
-<figure class="scenic-img">
-  <img src="https://imglf5.lf127.net/img/70b2861e9925afec/WlVnR0lTMFJCNXdCTXg1aG1DZ1d1am9xSFByMzZJbk1xWjh0SmNJNk95MD0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="Scenic View">
-</figure>
-
 <div class="content-block half">
-  <h2>Mini Game</h2>
+  <h2>
+    <span class="zh">关键帧动画</span>
+    <span class="en">Keyframe Animation</span>
+  </h2>
+  
   <div class="item">
-    <p class="zh">使用 Godot 制作的小游戏，图案为本人绘制</p>
-    <p class="en">Mini-game made with Godot, using assets drawn by myself</p>
-    <iframe src="https://easylink.cc/whognq" allowfullscreen></iframe>
+    <p class="zh">给妈妈的生日礼物</p>
+    <p class="en">Birthday gift for Mom</p>
+    <video controls>
+        <source src="BirthdayforMom.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="item">
+    <p class="zh">媒体艺术课程期末Project</p>
+    <p class="en">Media Arts Final Project</p>
+    <p style="font-size: 0.9em; color: #666;">
+        <span class="zh">（语音：电影《真心半解》；BGM：《海的形状》-昙轩）</span>
+        <span class="en">(Voice: "The Half of It"; BGM: "Shape of Sea")</span>
+    </p>
+    <video controls>
+        <source src="whatLoveIs.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
   </div>
 </div>
 
@@ -313,9 +328,21 @@ iframe {
   </h2>
   <p class="zh">使用 TouchDesigner 制作，灵感来源《明日方舟·水月》</p>
   <p class="en">Made with TouchDesigner, inspired by 'Mizuki' from Arknights</p>
+  
   <div class="item">
-    <img src="https://imglf6.lf127.net/img/0f8d6ad3fb005ebf/WlVnR0lTMFJCNXpVUHcwK3c4UGU0YXV2aktVd0hNbkNuYUxCM0Q4eHFaZz0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="TouchDesigner Work">
-    <iframe src="https://easylink.cc/kvkgha" allowfullscreen></iframe>
+    <p class="zh"><strong>Workflow:</strong> 粒子特效演示</p>
+    <p class="en"><strong>Workflow:</strong> Particle Effect Demo</p>
+    <video controls>
+        <source src="mizukiTD.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="item">
+    <p class="zh"><strong>流麻效果:</strong> 动态展示</p>
+    <p class="en"><strong>Fluid/Glitter Effect:</strong> Dynamic Display</p>
+    <video controls>
+        <source src="mizukiliuma.mp4" type="video/mp4">
+    </video>
   </div>
 </div>
 
@@ -326,18 +353,12 @@ iframe {
   </h2>
 
   <div class="item">
-    <h4>Major Fair</h4>
-    <img src="https://imglf4.lf127.net/img/ec82d7a5c57b7966/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3SnVuTFBjQlB0V0FaMkRVSFlvR2dBUT0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="Major Fair Poster 1">
-    <img src="https://imglf6.lf127.net/img/1a4a19e9d47766f0/WlVnR0lTMFJCNXkyL1h4WjExM2piVkFaZ1VteUo4UEFlZ3JaT3dIM1MyST0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="Major Fair Poster 2" style="margin-top:10px;">
-  </div>
-
-  <div class="item">
     <h4>
         <span class="zh">AI 社活动海报</span>
         <span class="en">AI Club Event Posters</span>
     </h4>
-    <img src="https://imglf6.lf127.net/img/5af335ef4f03d8cc/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3RTA0NE5LSlVIYk5FbGFMOUJlalZCcz0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="AI Club Poster 1">
-    <img src="https://imglf6.lf127.net/img/a9a934b7ef15ed94/WlVnR0lTMFJCNXlvTmhyQ0VJTnN3Q3poaTNkZmhFck5ZZnhocFVFM0ZEaz0.png?imageView&thumbnail=1680x0&quality=96&stripmeta=0" alt="AI Club Poster 2" style="margin-top:10px;">
+    <img src="AIclubPoster1.png" alt="AI Club Poster 1">
+    <img src="AIclubPoster2.png" alt="AI Club Poster 2" style="margin-top:16px;">
   </div>
 </div>
 
@@ -352,18 +373,18 @@ iframe {
   <div class="item">
     <h3>
          <span class="zh">自然与应用科学学部的官方文创产品</span>
-         <span class="en">Official Merchandise for the Division of Natural and Applied Sciences</span>
+         <span class="en">Official Merchandise for DNAS</span>
     </h3>
-    <img src="https://imglf4.lf127.net/img/a8c866a071071018/WlVnR0lTMFJCNXpVUHcwK3c4UGU0UU5tSG14WkF4THoxVjA5QXFxNkFSaz0.jpg?imageView&thumbnail=1680x0&quality=96&stripmeta=0">
+    <img src="DNASproducts.jpg" alt="DNAS Products">
     <p>(Folder; Notebook; Charger; Fan; Bag)</p>
   </div>
 
   <div class="item">
     <h3>
-        <span class="zh">在高中跳蚤市场时，本人自主设计售卖的主题文创产品</span>
-        <span class="en">Original themed merchandise designed and sold at a high school flea market</span>
+        <span class="zh">高中跳蚤市场主题文创</span>
+        <span class="en">Themed Merchandise for Flea Market</span>
     </h3>
-    <img src="https://imglf6.lf127.net/img/0bb627c41b8e0227/WlVnR0lTMFJCNXpVUHcwK3c4UGU0V0Z0M1pPRjdPNk9veDNiWEd5TDhoYz0.jpg?imageView&thumbnail=1680x0&quality=96&stripmeta=0">
+    <img src="Marketproducts.jpg" alt="Market Products">
     <p>(Folder; Handwriting tablets;...)</p>
   </div>
 </div>
@@ -385,6 +406,10 @@ iframe {
 
 </section>
 
+<div class="ending-banner">
+    <img src="ending image.png" alt="Ending Image">
+</div>
+
 <footer class="footer">
   <p class="zh">感谢你的阅读 ✨</p>
   <p class="en">Thanks for reading ✨</p>
@@ -405,6 +430,7 @@ iframe {
       localStorage.setItem('preferredLang', 'zh');
     }
   }
+  
   window.onload = function() {
     const savedLang = localStorage.getItem('preferredLang');
     if (savedLang === 'en') {
@@ -416,4 +442,3 @@ iframe {
 
 </body>
 </html>
-
