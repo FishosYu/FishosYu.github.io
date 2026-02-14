@@ -23,19 +23,15 @@ body {
 }
 
 /* ===== 语言切换相关 ===== */
-/* 默认隐藏英文，显示中文 */
 .en { display: none; }
 .zh { display: block; }
-/* 如果是行内元素，使用 inline */
 span.zh, span.en, a.zh, a.en { display: inline; }
 span.en, a.en { display: none; }
 
-/* 当 body 加上 'lang-en' 类时，反转显示 */
 body.lang-en .zh { display: none !important; }
 body.lang-en .en { display: block !important; }
 body.lang-en span.en, body.lang-en a.en { display: inline !important; }
 
-/* 语言切换按钮样式 */
 #lang-toggle {
   position: fixed;
   top: 20px;
@@ -71,7 +67,6 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
   padding: 48px 20px;
   background: linear-gradient(135deg, #c5938a, #e6b8b0);
   color: white;
-  position: relative; /* 为按钮定位做参考（如果在header内） */
 }
 
 .main-header h1 {
@@ -118,12 +113,18 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
   margin-top: 16px;
 }
 
+.item h3, .item h4 {
+    margin-bottom: 8px;
+    color: #b97f7f;
+}
+
 .item img,
 .scenic-img img {
   width: 100%;
   height: auto;
   border-radius: 10px;
   transition: transform .3s ease;
+  display: block; /* 消除图片底部空隙 */
 }
 
 .item img:hover,
@@ -150,7 +151,6 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
 .photo-slot img {
   max-width: 240px;
   border-radius: 12px;
-  display: block;
 }
 
 /* ===== 图片块 ===== */
@@ -283,8 +283,8 @@ iframe {
         <span class="en">Key Skills</span>
     </h3>
     <p>
-        <span class="zh">编程：Python / Java / C#</span>
-        <span class="en">Programming: Python / Java / C# </span>
+        <span class="zh">编程：Python / Java / C#（学习中）</span>
+        <span class="en">Programming: Python / Java / C# (Learning)</span>
     </p>
     <p>
         <span class="zh">设计：Adobe 系列 / Procreate / TouchDesigner / Godot</span>
@@ -343,6 +343,33 @@ iframe {
 
 <div class="content-block half">
   <h2>
+    <span class="zh">产品设计</span>
+    <span class="en">Product Design</span>
+  </h2>
+  <p class="zh">为不同物件做了不同的设计</p>
+  <p class="en">Different designs for different objects</p>
+  
+  <div class="item">
+    <h3>
+         <span class="zh">自然与应用科学学部的官方文创产品</span>
+         <span class="en">Official Merchandise for the Division of Natural and Applied Sciences</span>
+    </h3>
+    <img src="https://imglf4.lf127.net/img/a8c866a071071018/WlVnR0lTMFJCNXpVUHcwK3c4UGU0UU5tSG14WkF4THoxVjA5QXFxNkFSaz0.jpg?imageView&thumbnail=1680x0&quality=96&stripmeta=0">
+    <p>(Folder; Notebook; Charger; Fan; Bag)</p>
+  </div>
+
+  <div class="item">
+    <h3>
+        <span class="zh">在高中跳蚤市场时，本人自主设计售卖的主题文创产品</span>
+        <span class="en">Original themed merchandise designed and sold at a high school flea market</span>
+    </h3>
+    <img src="https://imglf6.lf127.net/img/0bb627c41b8e0227/WlVnR0lTMFJCNXpVUHcwK3c4UGU0V0Z0M1pPRjdPNk9veDNiWEd5TDhoYz0.jpg?imageView&thumbnail=1680x0&quality=96&stripmeta=0">
+    <p>(Folder; Handwriting tablets;...)</p>
+  </div>
+</div>
+
+<div class="content-block half">
+  <h2>
       <span class="zh">科幻写作</span>
       <span class="en">Sci-Fi Writing</span>
   </h2>
@@ -365,26 +392,19 @@ iframe {
 </div>
 
 <script>
-
   function toggleLanguage() {
     const body = document.body;
     const btn = document.getElementById('lang-toggle');
-    
-
     body.classList.toggle('lang-en');
-    
     const isEnglish = body.classList.contains('lang-en');
-    
     if (isEnglish) {
       btn.textContent = "中文";
-      localStorage.setItem('preferredLang', 'en'); 
+      localStorage.setItem('preferredLang', 'en');
     } else {
       btn.textContent = "English";
-      localStorage.setItem('preferredLang', 'zh'); 
+      localStorage.setItem('preferredLang', 'zh');
     }
   }
-
-  // 页面加载时检查之前的选择
   window.onload = function() {
     const savedLang = localStorage.getItem('preferredLang');
     if (savedLang === 'en') {
