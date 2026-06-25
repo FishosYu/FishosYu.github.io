@@ -185,6 +185,11 @@ body {
     object-fit: contain; 
 }
 
+/* 占位色块居中修正 */
+div.card-icon {
+    margin: 0 auto 1.2rem auto;
+}
+
 .card h3 {
     margin-bottom: 0.6rem;
 }
@@ -271,6 +276,16 @@ footer {
                 <p data-key="desc_masks">Global Game Jam 2026 参赛作品。</p>
                 <a href="https://globalgamejam.org/games/2026/three-masks-1" class="btn small" data-key="btn_visit_ggj">前往GGJ网站</a>
             </div>
+
+            <!-- 新增 MiniPlain 卡片 -->
+            <div class="card">
+                <!-- 蓝色方块占位，有logo后替换成 <img src="..." class="card-icon"> -->
+                <div class="card-icon" style="background-color: #007BFF; border-radius: 12px;"></div>
+                <h3 data-key="title_miniplain">小石之原</h3>
+                <p data-key="desc_miniplain">正在开发中的个人游戏作品。</p>
+                <!-- 这里复用了 btn_visit 的翻译键值 -->
+                <a href="https://www.ximingfish.work/MiniPlain-Game/" class="btn small" data-key="btn_visit">前往网站</a>
+            </div>
         </div>
     </section>
 
@@ -308,13 +323,17 @@ footer {
                 
                 // 三日舞会
                 'title_dddance': '三日舞会',
-                'desc_dddance': '个人独立设计制作的游戏作品，使用Unity制作。',
+                'desc_dddance': '个人独立设计制作的游戏作品，一个人也可以玩的狼人杀。使用Unity制作。',
                 'btn_visit': '前往网站',
 
-                // 三重面具 (新增翻译)
+                // 三重面具 
                 'title_masks': '三重面具',
-                'desc_masks': 'Global Game Jam 2026 参赛作品。',
+                'desc_masks': 'Global Game Jam 2026 参赛作品；三日舞会的姊妹游戏。',
                 'btn_visit_ggj': '前往GGJ网站',
+
+                // 小石之原 (MiniPlain)
+                'title_miniplain': '小石之原',
+                'desc_miniplain': '作为游戏玩法策划/共同程序的双人合作游戏：轻探索 · 采集 · 制造 · 烹饪，网页端的休闲游戏。',
                 
                 'section_other': '其他',
                 'desc_other': '包含更多视觉作品：动画、海报、文创产品。',
@@ -337,13 +356,17 @@ footer {
                 
                 // Three-Day Ball
                 'title_dddance': 'Three-Day Ball',
-                'desc_dddance': 'Indie game designed and developed by myself using Unity.',
+                'desc_dddance': 'Indie game designed and developed by myself using Unity. A werewolf game-like experience but only need one player. ',
                 'btn_visit': 'Visit Site',
 
-                // Three Masks (New Translations)
+                // Three Masks
                 'title_masks': 'Three Masks',
-                'desc_masks': 'Global Game Jam 2026 Entry.',
+                'desc_masks': 'Global Game Jam 2026 Entry. A brother game of Three-Day Ball',
                 'btn_visit_ggj': 'Visit GGJ Page',
+
+                // MiniPlain
+                'title_miniplain': 'MiniPlain',
+                'desc_miniplain': 'A casual web game developed by a two-person team (My role: Gameplay Designer & Co-Programmer): Light Exploration · Gathering · Crafting · Cooking.',
 
                 'section_other': 'Other Works',
                 'desc_other': 'Includes more visual works: animation/products/posters.',
@@ -378,9 +401,3 @@ footer {
 
 </body>
 </html>
-
-
-
-
-
-
