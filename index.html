@@ -158,8 +158,24 @@ body {
 /* ---------- Cards ---------- */
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+    .card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.8rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
 }
 
 .card {
@@ -180,9 +196,9 @@ body {
 .card-icon {
     width: 64px;
     height: 64px;
-    margin-bottom: 1.2rem;
-    /* 确保图标按比例缩放 */
-    object-fit: contain; 
+    margin: 0 auto 1.2rem;
+    display: block;
+    object-fit: contain;
 }
 
 /* 占位色块居中修正 */
@@ -257,13 +273,6 @@ footer {
 
         <div class="card-grid">
             <div class="card">
-                <img src="assets/images/products/AInterviewer.png" class="card-icon">
-                <h3>AInterviewer</h3>
-                <p data-key="desc_aint">提供AI模拟面试的安卓应用。支持中英双语。</p>
-                <a href="assets/AInterviewer/" class="btn small" data-key="btn_details">查看详情</a>
-            </div>
-
-            <div class="card">
                 <img src="assets/images/products/dddance.png" class="card-icon">
                 <h3 data-key="title_dddance">三日舞会</h3>
                 <p data-key="desc_dddance">个人独立设计制作的游戏作品，使用Unity制作。</p>
@@ -277,14 +286,32 @@ footer {
                 <a href="https://globalgamejam.org/games/2026/three-masks-1" class="btn small" data-key="btn_visit_ggj">前往GGJ网站</a>
             </div>
 
-            <!-- 新增 MiniPlain 卡片 -->
             <div class="card">
-                <!-- 蓝色方块占位，有logo后替换成 <img src="..." class="card-icon"> -->
                 <img src="assets/images/products/stonia-logo.png" class="card-icon">
                 <h3 data-key="title_miniplain">小石之原</h3>
                 <p data-key="desc_miniplain">作为游戏玩法策划/共同程序的双人合作游戏：轻探索 · 采集 · 制造 · 烹饪，网页端的休闲游戏。</p>
-                <!-- 这里复用了 btn_visit 的翻译键值 -->
                 <a href="https://www.ximingfish.work/MiniPlain-Game/" class="btn small" data-key="btn_visit">前往网站</a>
+            </div>
+
+            <div class="card">
+                <img src="assets/images/products/criminalid.svg" class="card-icon">
+                <h3 data-key="title_criminal">刑侦专家</h3>
+                <p data-key="desc_criminal">犯罪侧写模拟游戏：线索采集、AI画像生成与通缉筛查，完整可玩验证demo。</p>
+                <a href="projects/CriminalID/index.html" class="btn small" data-key="btn_details">查看详情</a>
+            </div>
+
+            <div class="card">
+                <img src="assets/images/products/rpschess.svg" class="card-icon">
+                <h3 data-key="title_rps">拳力的游戏</h3>
+                <p data-key="desc_rps">石头剪刀布版回合制简易象棋，人机对战验证demo；含玩法白皮书。</p>
+                <a href="projects/RPSChess/index.html" class="btn small" data-key="btn_details">查看详情</a>
+            </div>
+
+            <div class="card">
+                <img src="assets/images/products/AInterviewer.png" class="card-icon">
+                <h3>AInterviewer</h3>
+                <p data-key="desc_aint">提供AI模拟面试的安卓应用。支持中英双语。</p>
+                <a href="assets/AInterviewer/index.html" class="btn small" data-key="btn_details">查看详情</a>
             </div>
         </div>
     </section>
@@ -334,6 +361,14 @@ footer {
                 // 小石之原 (MiniPlain)
                 'title_miniplain': '小石之原',
                 'desc_miniplain': '作为游戏玩法策划/共同程序的双人合作游戏：轻探索 · 采集 · 制造 · 烹饪，网页端的休闲游戏。',
+
+                // 刑侦专家
+                'title_criminal': '刑侦专家',
+                'desc_criminal': '犯罪侧写模拟游戏：线索采集、AI画像生成与通缉筛查，完整可玩验证demo。',
+
+                // 拳力的游戏
+                'title_rps': '拳力的游戏',
+                'desc_rps': '石头剪刀布版回合制简易象棋，人机对战验证demo；含玩法白皮书。',
                 
                 'section_other': '其他',
                 'desc_other': '包含更多视觉作品：动画、海报、文创产品。',
@@ -367,6 +402,14 @@ footer {
                 // MiniPlain
                 'title_miniplain': 'MiniPlain',
                 'desc_miniplain': 'A casual web game developed by a two-person team (My role: Gameplay Designer & Co-Programmer): Light Exploration · Gathering · Crafting · Cooking.',
+
+                // CriminalID
+                'title_criminal': 'CriminalID',
+                'desc_criminal': 'Crime profiling simulation: clue gathering, AI portrait generation and wanted screening — a complete playable validation demo.',
+
+                // RPS Chess
+                'title_rps': 'RPS Chess',
+                'desc_rps': 'Rock-paper-scissors turn-based mini chess vs AI; includes a playable demo and design whitepaper.',
 
                 'section_other': 'Other Works',
                 'desc_other': 'Includes more visual works: animation/products/posters.',

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>刑侦专家 · CriminalID</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="刑侦专家：犯罪侧写模拟游戏——线索采集、画像生成、通缉筛查与最终锁定。">
+<link rel="icon" href="../../assets/images/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #050505;
+    --panel: #080808;
+    --raised: #101010;
+    --neon: #39ff14;
+    --neon-dim: rgba(57, 255, 20, 0.45);
+    --neon-glow: rgba(57, 255, 20, 0.22);
+    --text: #e8e8e8;
+    --text-dim: #8a8a8a;
+    --border: #2a2a2a;
+    --paper: #ffffff;
+    --font-display: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --font-mono: "Share Tech Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-display);
+    line-height: 1.65;
+    min-height: 100%;
+}
+
+/* CRT atmosphere — style matched to game UI, no source assets copied */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(180deg, transparent 0, transparent 2px, rgba(0,0,0,0.14) 2px, rgba(0,0,0,0.14) 3px),
+        repeating-linear-gradient(90deg, transparent 0, transparent 4px, rgba(57,255,20,0.05) 4px, rgba(57,255,20,0.05) 5px),
+        linear-gradient(rgba(57,255,20,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57,255,20,0.07) 1px, transparent 1px),
+        radial-gradient(ellipse 85% 55% at 50% 12%, rgba(57,255,20,0.08), transparent 55%),
+        radial-gradient(ellipse 120% 80% at 50% 100%, rgba(20,40,30,0.35), transparent 45%),
+        var(--bg);
+    background-size: 100% 100%, 100% 100%, 28px 28px, 28px 28px, 100% 100%, 100% 100%, 100% 100%;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0.28;
+    mix-blend-mode: multiply;
+    background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.14) 2px 4px);
+    animation: scan-drift 56s linear infinite;
+}
+
+@keyframes scan-drift {
+    from { background-position: 0 0; }
+    to { background-position: 0 96px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::after { animation: none; }
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: rgba(5, 5, 5, 0.88);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+}
+
+.brand-mark {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    color: var(--neon);
+    text-transform: uppercase;
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.lang-btn {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.45rem 0.9rem;
+    color: var(--neon);
+    background: transparent;
+    border: 1px solid var(--neon-dim);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.lang-btn:hover {
+    background: rgba(57, 255, 20, 0.1);
+    box-shadow: 0 0 12px var(--neon-glow);
+}
+
+.btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    padding: 0.75rem 1.6rem;
+    transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+    cursor: pointer;
+    border: 2px solid var(--paper);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+    background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0,0,0,0.14) 2px 4px);
+}
+
+.btn > span { position: relative; z-index: 2; }
+
+.btn-white {
+    color: #050505;
+    background: var(--paper);
+}
+
+.btn-white:hover {
+    color: var(--neon);
+    background: #050505;
+    border-color: var(--neon);
+    box-shadow: 0 0 12px rgba(57, 255, 20, 0.35);
+}
+
+.btn-outline {
+    color: var(--neon);
+    background: transparent;
+    border-color: var(--neon-dim);
+}
+
+.btn-outline:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 12px var(--neon-glow);
+}
+
+.hero {
+    min-height: min(92vh, 820px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1.5rem 3rem;
+    position: relative;
+}
+
+.hero-inner { max-width: 760px; }
+
+.eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.28em;
+    color: var(--neon);
+    text-transform: uppercase;
+    margin-bottom: 1.4rem;
+    opacity: 0;
+    animation: rise 0.7s ease 0.1s forwards;
+}
+
+.hero h1 {
+    font-family: var(--font-mono);
+    font-size: clamp(2.4rem, 8vw, 3.6rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--paper);
+    line-height: 1.15;
+    text-shadow: 0 0 24px var(--neon-glow);
+    opacity: 0;
+    animation: rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+.hero-line {
+    width: 120px;
+    height: 2px;
+    margin: 1.4rem auto;
+    background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    transform-origin: center;
+    opacity: 0;
+    animation: line-grow 0.5s ease 0.55s forwards;
+}
+
+.hero p {
+    color: var(--text-dim);
+    max-width: 540px;
+    margin: 0 auto 2rem;
+    font-size: 1.05rem;
+    opacity: 0;
+    animation: rise 0.65s ease 0.45s forwards;
+}
+
+.hero-cta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: rise 0.7s ease 0.65s forwards;
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(24px); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes line-grow {
+    from { opacity: 0; transform: scaleX(0); }
+    to { opacity: 1; transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .eyebrow, .hero h1, .hero-line, .hero p, .hero-cta {
+        opacity: 1;
+        animation: none;
+        filter: none;
+        transform: none;
+    }
+}
+
+.section {
+    padding: 4.5rem 1.5rem;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 0.75rem;
+}
+
+.section-lead {
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+    max-width: 640px;
+}
+
+.panel {
+    background: rgba(8, 8, 8, 0.92);
+    border: 1px solid var(--border);
+    box-shadow: inset 0 0 0 1px rgba(57, 255, 20, 0.04), 0 12px 40px rgba(0,0,0,0.45);
+    padding: 1.6rem 1.5rem;
+}
+
+.flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+}
+
+.flow-step {
+    color: #050505;
+    background: var(--neon);
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--neon);
+}
+
+.flow-arrow {
+    color: var(--neon-dim);
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.mod {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    padding: 1.35rem 1.2rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.mod:hover {
+    border-color: var(--neon-dim);
+    box-shadow: 0 0 18px rgba(57, 255, 20, 0.12);
+}
+
+.mod h3 {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    color: var(--paper);
+    margin-bottom: 0.55rem;
+}
+
+.mod p {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+}
+
+.phase-list {
+    list-style: none;
+    display: grid;
+    gap: 0.9rem;
+}
+
+.phase-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1rem 1.1rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+}
+
+.phase-num {
+    font-family: var(--font-mono);
+    color: var(--neon);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+}
+
+.phase-list strong {
+    display: block;
+    color: var(--paper);
+    margin-bottom: 0.25rem;
+}
+
+.phase-list span {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+}
+
+.video-wrap {
+    position: relative;
+    border: 1px solid var(--border);
+    background: #000;
+    box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.12), 0 0 32px rgba(57, 255, 20, 0.08);
+    overflow: hidden;
+}
+
+.video-wrap::before {
+    content: "REC · DEMO";
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    z-index: 2;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: var(--neon);
+    pointer-events: none;
+}
+
+.video-wrap video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1.25rem;
+}
+
+.tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--neon);
+    border: 1px solid var(--neon-dim);
+    padding: 0.35rem 0.65rem;
+    background: rgba(57, 255, 20, 0.06);
+}
+
+.notice {
+    margin-top: 1.5rem;
+    padding: 1.15rem 1.25rem;
+    background: rgba(8, 8, 8, 0.92);
+    border: 1px dashed var(--neon-dim);
+    box-shadow: inset 0 0 0 1px rgba(57, 255, 20, 0.04);
+}
+
+.notice-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 0.7rem;
+}
+
+.notice ul {
+    list-style: none;
+    display: grid;
+    gap: 0.55rem;
+}
+
+.notice li {
+    position: relative;
+    padding-left: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+}
+
+.notice li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    color: var(--neon);
+    font-family: var(--font-mono);
+}
+
+footer {
+    text-align: center;
+    padding: 3rem 1.5rem 4rem;
+    color: var(--text-dim);
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+}
+
+footer .btn { margin-bottom: 1.25rem; }
+
+@media (max-width: 860px) {
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .flow-arrow { display: none; }
+    .flow-step { width: 100%; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="brand-mark" data-i18n="sys-id">CriminalID // 刑侦专家</div>
+    <div class="topbar-actions">
+        <button type="button" class="lang-btn" id="langBtn">EN</button>
+        <a class="btn btn-outline" href="../../index.html" data-i18n="btn-home"><span>← 返回主页</span></a>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <p class="eyebrow" data-i18n="eyebrow">Crime Profiling Simulation</p>
+        <h1 data-i18n="title">刑侦专家</h1>
+        <div class="hero-line" aria-hidden="true"></div>
+        <p data-i18n="hero-desc">
+            犯罪侧写模拟游戏。通过线索采集、信息处理、画像生成与通缉筛查，逐步缩小嫌疑范围，完成最终锁定。
+        </p>
+        <div class="hero-cta">
+            <a class="btn btn-white" href="#demo" data-i18n="btn-demo"><span>观看功能验证 Demo</span></a>
+            <a class="btn btn-outline" href="#overview" data-i18n="btn-overview"><span>了解玩法</span></a>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="overview">
+    <h2 class="section-title" data-i18n="sec-overview">系统概述</h2>
+    <p class="section-lead" data-i18n="overview-lead">
+        采用「案件关卡制」：每个案件为独立关卡。玩家收集线索、分析证词、生成画像并发布通缉，在统一核心玩法下推进结案。
+    </p>
+    <div class="panel">
+        <div class="flow" aria-label="core loop">
+            <span class="flow-step" data-i18n="flow-1">线索采集</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step" data-i18n="flow-2">信息处理</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step" data-i18n="flow-3">画像生成</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step" data-i18n="flow-4">条件筛查</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step" data-i18n="flow-5">最终锁定</span>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title" data-i18n="sec-goals">设计目标</h2>
+    <p class="section-lead" data-i18n="goals-lead">围绕可复用的侧写核心，支持多案件模块化接入。</p>
+    <div class="grid-2">
+        <div class="mod">
+            <h3 data-i18n="g1-t">多案件关卡</h3>
+            <p data-i18n="g1-d">章节化 / 关卡化案件结构，每个案件具备独立剧情与线索。</p>
+        </div>
+        <div class="mod">
+            <h3 data-i18n="g2-t">统一侧写核心</h3>
+            <p data-i18n="g2-d">共享画像侧写玩法，支持多阶段迭代与单阶段流程。</p>
+        </div>
+        <div class="mod">
+            <h3 data-i18n="g3-t">多模态输入</h3>
+            <p data-i18n="g3-d">支持 AI 语音、图片、监控视频等多种线索形态。</p>
+        </div>
+        <div class="mod">
+            <h3 data-i18n="g4-t">灵活配置</h3>
+            <p data-i18n="g4-d">可按案件配置流程与难度，便于扩展新关卡内容。</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title" data-i18n="sec-modules">核心模块</h2>
+    <p class="section-lead" data-i18n="modules-lead">系统由案件、阶段、线索、画像、AI 交互与结算等模块构成。</p>
+    <div class="grid-3">
+        <div class="mod">
+            <h3 data-i18n="m1-t">案件系统</h3>
+            <p data-i18n="m1-d">案件列表、解锁与配置加载，支撑多入口切换。</p>
+        </div>
+        <div class="mod">
+            <h3 data-i18n="m2-t">线索系统</h3>
+            <p data-i18n="m2-d">人证、物证、群众举报与监控视频等多来源信息。</p>
+        </div>
+        <div class="mod">
+            <h3 data-i18n="m3-t">画像系统</h3>
+            <p data-i18n="m3-d">参数控制 + 提示词生成，驱动 AI 嫌疑人画像。</p>
+        </div>
+        <div class="mod">
+            <h3 data-i18n="m4-t">通缉筛查</h3>
+            <p data-i18n="m4-d">发布画像生成举报池，排查干扰项并推进下一阶段。</p>
+        </div>
+        <div class="mod">
+            <h3 data-i18n="m5-t">AI 交互</h3>
+            <p data-i18n="m5-d">模拟电话通话与分支对话，获取关键线索。</p>
+        </div>
+        <div class="mod">
+            <h3 data-i18n="m6-t">结算反馈</h3>
+            <p data-i18n="m6-d">画像准确度、线索数量与最终评分输出。</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title" data-i18n="sec-phases">阶段推进</h2>
+    <p class="section-lead" data-i18n="phases-lead">默认三阶段侧写流程，可循环推进至锁定结案。</p>
+    <ul class="phase-list">
+        <li>
+            <div class="phase-num">01</div>
+            <div>
+                <strong data-i18n="p1-t">第一阶段 · 线索收集</strong>
+                <span data-i18n="p1-d">整理证词与证物，建立初始侧写方向。</span>
+            </div>
+        </li>
+        <li>
+            <div class="phase-num">02</div>
+            <div>
+                <strong data-i18n="p2-t">第二阶段 · 修正与筛查</strong>
+                <span data-i18n="p2-d">根据新线索修正画像，发布通缉并排查举报池。</span>
+            </div>
+        </li>
+        <li>
+            <div class="phase-num">03</div>
+            <div>
+                <strong data-i18n="p3-t">第三阶段 · 精细锁定</strong>
+                <span data-i18n="p3-d">生成最终画像，达到匹配阈值后完成锁定。</span>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section class="section" id="demo">
+    <h2 class="section-title" data-i18n="sec-demo">功能验证 Demo</h2>
+    <p class="section-lead" data-i18n="demo-lead">以下为游戏功能验证演示视频，可直接在页面内播放。</p>
+    <div class="video-wrap">
+        <video
+            controls
+            playsinline
+            preload="metadata"
+            poster=""
+            src="https://pub-e9f8c53a89f547f199539a21613c56fd.r2.dev/AIgenImageGameDemo.mp4">
+            您的浏览器不支持视频播放。
+        </video>
+    </div>
+    <div class="tag-row">
+        <span class="tag" data-i18n="tag-1">AI 画像生成</span>
+        <span class="tag" data-i18n="tag-2">线索推理</span>
+        <span class="tag" data-i18n="tag-3">通缉筛查</span>
+        <span class="tag" data-i18n="tag-4">多模态交互</span>
+    </div>
+    <aside class="notice" aria-label="demo notes">
+        <div class="notice-label" data-i18n="notice-label">NOTICE</div>
+        <ul>
+            <li data-i18n="notice-1">本验证 Demo 使用模型为千问 Qwen（阿里云百炼大模型）；实际游戏中已替换为其他模型。</li>
+            <li data-i18n="notice-2">实际游戏版本样式与项目源文件不可提供。</li>
+        </ul>
+    </aside>
+</section>
+
+<footer>
+    <a class="btn btn-white" href="../../index.html" data-i18n="btn-home2"><span>← 返回主页</span></a>
+    <p data-i18n="copyright">© 2026 俞希明 · CriminalID</p>
+</footer>
+
+<script>
+const translations = {
+    zh: {
+        'sys-id': 'CriminalID // 刑侦专家',
+        'btn-home': '← 返回主页',
+        'btn-home2': '← 返回主页',
+        'eyebrow': 'Crime Profiling Simulation',
+        'title': '刑侦专家',
+        'hero-desc': '犯罪侧写模拟游戏。通过线索采集、信息处理、画像生成与通缉筛查，逐步缩小嫌疑范围，完成最终锁定。',
+        'btn-demo': '观看功能验证 Demo',
+        'btn-overview': '了解玩法',
+        'sec-overview': '系统概述',
+        'overview-lead': '采用「案件关卡制」：每个案件为独立关卡。玩家收集线索、分析证词、生成画像并发布通缉，在统一核心玩法下推进结案。',
+        'flow-1': '线索采集',
+        'flow-2': '信息处理',
+        'flow-3': '画像生成',
+        'flow-4': '条件筛查',
+        'flow-5': '最终锁定',
+        'sec-goals': '设计目标',
+        'goals-lead': '围绕可复用的侧写核心，支持多案件模块化接入。',
+        'g1-t': '多案件关卡',
+        'g1-d': '章节化 / 关卡化案件结构，每个案件具备独立剧情与线索。',
+        'g2-t': '统一侧写核心',
+        'g2-d': '共享画像侧写玩法，支持多阶段迭代与单阶段流程。',
+        'g3-t': '多模态输入',
+        'g3-d': '支持 AI 语音、图片、监控视频等多种线索形态。',
+        'g4-t': '灵活配置',
+        'g4-d': '可按案件配置流程与难度，便于扩展新关卡内容。',
+        'sec-modules': '核心模块',
+        'modules-lead': '系统由案件、阶段、线索、画像、AI 交互与结算等模块构成。',
+        'm1-t': '案件系统',
+        'm1-d': '案件列表、解锁与配置加载，支撑多入口切换。',
+        'm2-t': '线索系统',
+        'm2-d': '人证、物证、群众举报与监控视频等多来源信息。',
+        'm3-t': '画像系统',
+        'm3-d': '参数控制 + 提示词生成，驱动 AI 嫌疑人画像。',
+        'm4-t': '通缉筛查',
+        'm4-d': '发布画像生成举报池，排查干扰项并推进下一阶段。',
+        'm5-t': 'AI 交互',
+        'm5-d': '模拟电话通话与分支对话，获取关键线索。',
+        'm6-t': '结算反馈',
+        'm6-d': '画像准确度、线索数量与最终评分输出。',
+        'sec-phases': '阶段推进',
+        'phases-lead': '默认三阶段侧写流程，可循环推进至锁定结案。',
+        'p1-t': '第一阶段 · 线索收集',
+        'p1-d': '整理证词与证物，建立初始侧写方向。',
+        'p2-t': '第二阶段 · 修正与筛查',
+        'p2-d': '根据新线索修正画像，发布通缉并排查举报池。',
+        'p3-t': '第三阶段 · 精细锁定',
+        'p3-d': '生成最终画像，达到匹配阈值后完成锁定。',
+        'sec-demo': '功能验证 Demo',
+        'demo-lead': '以下为游戏功能验证演示视频，可直接在页面内播放。',
+        'tag-1': 'AI 画像生成',
+        'tag-2': '线索推理',
+        'tag-3': '通缉筛查',
+        'tag-4': '多模态交互',
+        'notice-label': 'NOTICE',
+        'notice-1': '本验证 Demo 使用模型为千问 Qwen（阿里云百炼大模型）；实际游戏中已替换为其他模型。',
+        'notice-2': '实际游戏版本样式与项目源文件不可提供。',
+        'copyright': '© 2026 俞希明 · CriminalID'
+    },
+    en: {
+        'sys-id': 'CriminalID // Profiler',
+        'btn-home': '← Back to Home',
+        'btn-home2': '← Back to Home',
+        'eyebrow': 'Crime Profiling Simulation',
+        'title': 'CriminalID',
+        'hero-desc': 'A crime profiling simulation. Gather clues, process intel, generate portraits, and screen suspects until you lock the target.',
+        'btn-demo': 'Watch Validation Demo',
+        'btn-overview': 'How It Works',
+        'sec-overview': 'Overview',
+        'overview-lead': 'Case-based levels: each case is a self-contained stage. Collect clues, analyze testimony, generate portraits, and issue wanted notices toward case closure.',
+        'flow-1': 'Clue Gathering',
+        'flow-2': 'Intel Processing',
+        'flow-3': 'Portrait Gen',
+        'flow-4': 'Screening',
+        'flow-5': 'Final Lock',
+        'sec-goals': 'Design Goals',
+        'goals-lead': 'A reusable profiling core with modular multi-case support.',
+        'g1-t': 'Multi-Case Levels',
+        'g1-d': 'Chapter / level structure with independent plots and clue sets per case.',
+        'g2-t': 'Shared Profiling Core',
+        'g2-d': 'One portrait-profiling loop supporting multi-phase or single-phase flows.',
+        'g3-t': 'Multimodal Input',
+        'g3-d': 'AI voice, images, surveillance footage, and more clue types.',
+        'g4-t': 'Flexible Config',
+        'g4-d': 'Per-case flow and difficulty settings for easy content expansion.',
+        'sec-modules': 'Core Modules',
+        'modules-lead': 'Case, phase, clue, portrait, AI interaction, and scoring systems.',
+        'm1-t': 'Case System',
+        'm1-d': 'Case list, unlock rules, and config loading for multi-entry play.',
+        'm2-t': 'Clue System',
+        'm2-d': 'Witnesses, physical evidence, tip-offs, and CCTV sources.',
+        'm3-t': 'Portrait System',
+        'm3-d': 'Parameter control + prompt generation for AI suspect portraits.',
+        'm4-t': 'Wanted Screening',
+        'm4-d': 'Publish a portrait to build a tip pool, filter noise, and advance.',
+        'm5-t': 'AI Interaction',
+        'm5-d': 'Simulated phone calls and branching dialogue for key intel.',
+        'm6-t': 'Scoring',
+        'm6-d': 'Portrait accuracy, clue count, and final score feedback.',
+        'sec-phases': 'Phase Flow',
+        'phases-lead': 'Default three-phase profiling loop, repeatable until lock.',
+        'p1-t': 'Phase 1 · Clue Collection',
+        'p1-d': 'Organize testimony and evidence to form an initial profile.',
+        'p2-t': 'Phase 2 · Revise & Screen',
+        'p2-d': 'Refine the portrait, issue a wanted notice, and review tip-offs.',
+        'p3-t': 'Phase 3 · Precision Lock',
+        'p3-d': 'Generate the final portrait and lock when the match threshold is met.',
+        'sec-demo': 'Validation Demo',
+        'demo-lead': 'Feature validation demo video — playable inline below.',
+        'tag-1': 'AI Portrait Gen',
+        'tag-2': 'Clue Reasoning',
+        'tag-3': 'Wanted Screening',
+        'tag-4': 'Multimodal UX',
+        'notice-label': 'NOTICE',
+        'notice-1': 'This validation demo uses Qwen (Alibaba Cloud Model Studio / Bailian). The shipping game has switched to other models.',
+        'notice-2': 'The actual game UI and project source files are not available.',
+        'copyright': '© 2026 Yu Ximing · CriminalID'
+    }
+};
+
+let currentLang = 'zh';
+const langBtn = document.getElementById('langBtn');
+
+function applyLang(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const text = translations[lang][key];
+        if (!text) return;
+        const span = el.querySelector('span');
+        if (span) span.textContent = text;
+        else el.textContent = text;
+    });
+    langBtn.textContent = lang === 'zh' ? 'EN' : '中';
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+}
+
+langBtn.addEventListener('click', () => {
+    currentLang = currentLang === 'zh' ? 'en' : 'zh';
+    applyLang(currentLang);
+});
+</script>
+</body>
+</html>
