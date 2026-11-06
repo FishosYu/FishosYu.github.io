@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -224,9 +224,9 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
 </style>
 </head>
 
-<body>
+<body class="lang-en">
 
-<button id="lang-toggle" onclick="toggleLanguage()">English</button>
+<button id="lang-toggle" onclick="toggleLanguage()">中文</button>
 
 <div class="top-banner">
   <img src="Scenic view.png" alt="Scenic View Banner">
@@ -424,18 +424,21 @@ body.lang-en span.en, body.lang-en a.en { display: inline !important; }
     const isEnglish = body.classList.contains('lang-en');
     if (isEnglish) {
       btn.textContent = "中文";
+      document.documentElement.lang = 'en';
       localStorage.setItem('preferredLang', 'en');
     } else {
       btn.textContent = "English";
+      document.documentElement.lang = 'zh';
       localStorage.setItem('preferredLang', 'zh');
     }
   }
   
   window.onload = function() {
     const savedLang = localStorage.getItem('preferredLang');
-    if (savedLang === 'en') {
-      document.body.classList.add('lang-en');
-      document.getElementById('lang-toggle').textContent = "中文";
+    if (savedLang === 'zh') {
+      document.body.classList.remove('lang-en');
+      document.getElementById('lang-toggle').textContent = "English";
+      document.documentElement.lang = 'zh';
     }
   };
 </script>

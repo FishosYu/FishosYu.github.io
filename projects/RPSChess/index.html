@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>拳力的游戏 · RPS CHESS</title>
+<title>RPS CHESS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="拳力的游戏（RPS CHESS）：石头剪刀布版回合制简易象棋，可在线体验验证 Demo，并阅读游戏白皮书。">
 <link rel="icon" href="../../assets/images/favicon.png" type="image/png">
@@ -409,7 +409,7 @@ footer .btn { margin-bottom: 1.1rem; }
 <header class="topbar">
     <div class="brand-mark" data-i18n="sys-id">RPS CHESS</div>
     <div class="topbar-actions">
-        <button type="button" class="lang-btn" id="langBtn">EN</button>
+        <button type="button" class="lang-btn" id="langBtn">中</button>
         <a class="btn btn-ghost" href="../../index.html" data-i18n="btn-home">← 返回主页</a>
     </div>
 </header>
@@ -594,7 +594,7 @@ const translations = {
     }
 };
 
-let currentLang = 'zh';
+let currentLang = 'en';
 const langBtn = document.getElementById('langBtn');
 
 function applyLang(lang) {
@@ -604,12 +604,15 @@ function applyLang(lang) {
     });
     langBtn.textContent = lang === 'zh' ? 'EN' : '中';
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.title = lang === 'zh' ? '拳力的游戏 · RPS CHESS' : 'RPS CHESS';
 }
 
 langBtn.addEventListener('click', () => {
     currentLang = currentLang === 'zh' ? 'en' : 'zh';
     applyLang(currentLang);
 });
+
+applyLang(currentLang);
 </script>
 </body>
 </html>

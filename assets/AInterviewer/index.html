@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>AInterviewer</title>
@@ -201,7 +201,7 @@ footer {
 
 <body>
 
-    <button id="lang-btn" class="lang-switch">EN</button>
+    <button id="lang-btn" class="lang-switch">中</button>
 
 <section class="hero">
     <div class="hero-content">
@@ -288,7 +288,7 @@ footer {
     };
 
     const langBtn = document.getElementById('lang-btn');
-    let currentLang = 'zh';
+    let currentLang = 'en';
 
     function updateContent(lang) {
         document.querySelectorAll('[data-i18n]').forEach(element => {
@@ -306,6 +306,8 @@ footer {
         currentLang = currentLang === 'zh' ? 'en' : 'zh';
         updateContent(currentLang);
     });
+
+    updateContent(currentLang);
 </script>
 
 </body>

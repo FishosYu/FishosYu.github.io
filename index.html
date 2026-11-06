@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>俞希明 · Personal Portfolio</title>
+<title>Yu Ximing · Personal Portfolio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -239,7 +239,7 @@ footer {
 <body>
 
     <div class="lang-switch">
-        <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">EN</button>
+        <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">中</button>
     </div>
 
     <section class="profile">
@@ -264,7 +264,7 @@ footer {
             <a href="assets/resumes/resume-en.pdf" class="btn" data-key="btn_resume_en">English Resume</a>
         </div>
         <p class="intro" data-key="update_time">
-            最近更新时间：2026.2
+            最近更新时间：2026.10
         </p>
     </section>
 
@@ -291,6 +291,13 @@ footer {
                 <h3 data-key="title_miniplain">小石之原</h3>
                 <p data-key="desc_miniplain">作为游戏玩法策划/共同程序的双人合作游戏：轻探索 · 采集 · 制造 · 烹饪，网页端的休闲游戏。</p>
                 <a href="https://www.ximingfish.work/MiniPlain-Game/" class="btn small" data-key="btn_visit">前往网站</a>
+            </div>
+
+            <div class="card">
+                <img src="assets/images/products/shipcrash.png" class="card-icon" alt="ShipCrash">
+                <h3 data-key="title_shipcrash">ShipCrash</h3>
+                <p data-key="desc_shipcrash">Three.js 斜俯视 3D 海战动作小游戏：限时 Boss 战，融合轻布防与模块成长。</p>
+                <a href="projects/ShipCrash/index.html" class="btn small" data-key="btn_details">查看详情</a>
             </div>
 
             <div class="card">
@@ -341,7 +348,7 @@ footer {
                 'section_resume': '简历',
                 'btn_resume_cn': '中文简历',
                 'btn_resume_en': 'English Resume',
-                'update_time': '最近更新时间：2026.2',
+                'update_time': '最近更新时间：2026.10',
                 'section_products': '作品',
                 
                 // AInterviewer
@@ -361,6 +368,10 @@ footer {
                 // 小石之原 (MiniPlain)
                 'title_miniplain': '小石之原',
                 'desc_miniplain': '作为游戏玩法策划/共同程序的双人合作游戏：轻探索 · 采集 · 制造 · 烹饪，网页端的休闲游戏。',
+
+                // ShipCrash
+                'title_shipcrash': 'ShipCrash',
+                'desc_shipcrash': 'Three.js 斜俯视 3D 海战动作小游戏：限时 Boss 战，融合轻布防与模块成长。',
 
                 // 刑侦专家
                 'title_criminal': '刑侦专家',
@@ -382,7 +393,7 @@ footer {
                 'section_resume': 'Resume',
                 'btn_resume_cn': 'Chinese Resume',
                 'btn_resume_en': 'English Resume',
-                'update_time': 'Last updated: Feb 2026',
+                'update_time': 'Last updated: Oct 2026',
                 'section_products': 'Products',
                 
                 // AInterviewer
@@ -403,6 +414,10 @@ footer {
                 'title_miniplain': 'MiniPlain',
                 'desc_miniplain': 'A casual web game developed by a two-person team (My role: Gameplay Designer & Co-Programmer): Light Exploration · Gathering · Crafting · Cooking.',
 
+                // ShipCrash
+                'title_shipcrash': 'ShipCrash',
+                'desc_shipcrash': 'An oblique-view 3D naval action mini-game in Three.js: timed boss rush with light defense and module upgrades.',
+
                 // CriminalID
                 'title_criminal': 'CriminalID',
                 'desc_criminal': 'Crime profiling simulation: clue gathering, AI portrait generation and wanted screening — a complete playable validation demo.',
@@ -418,17 +433,12 @@ footer {
             }
         };
 
-        // 当前语言状态，默认中文
-        let currentLang = 'zh';
+        // 当前语言状态，默认英文
+        let currentLang = 'en';
 
-        function toggleLanguage() {
-            // 切换语言状态
-            currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            
-            // 更新按钮文字
+        function applyLanguage() {
             document.getElementById('langToggle').innerText = currentLang === 'zh' ? 'EN' : '中';
 
-            // 更新页面所有带 data-key 的元素
             const elements = document.querySelectorAll('[data-key]');
             elements.forEach(el => {
                 const key = el.getAttribute('data-key');
@@ -437,9 +447,16 @@ footer {
                 }
             });
 
-            // 更新 HTML 标签的 lang 属性
             document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
+            document.title = currentLang === 'zh' ? '俞希明 · Personal Portfolio' : 'Yu Ximing · Personal Portfolio';
         }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            applyLanguage();
+        }
+
+        applyLanguage();
     </script>
 
 </body>
